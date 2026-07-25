@@ -13,7 +13,7 @@ time.sleep(1)
 
 #Generate a random 4-digit secret passcode
 secret_code = str(random.randint(1000, 9999))
-attempts = 3
+attempts = 15
 
 while attempts > 0:
     guess = input(f"Enter 4-digit bypass code ({attempts} attempts remaining): ")

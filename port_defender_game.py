@@ -15,7 +15,7 @@ rounds = 5
 print("=== CYBER DEFENDER: PORT SCANNER GAME ===")
 print("Target: Find the infected port and close it fast!\n")
 
-for round_num in range(1, round + 1):
+for round_num in range(1, rounds + 1):
     # Pick a random port that is "infected"
     infected_port = random.choice(list(ports.keys()))
 

@@ -51,7 +51,7 @@ print("Analyze each email. Decide if it's SAFE or a PHISHING SCAM.\n")
 # Shuffle emails so each playthrough feels different
 random.shuffle(emails)
 
-for subject, sender, link is_phishing, hint in emails:
+for subject, sender, link, is_phishing, hint in emails:
     if lives <= 0:
         print("🚨 CRITICAL BREACH! Too many security errors. Game Over! 🚨")
         break

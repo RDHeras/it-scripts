@@ -84,6 +84,7 @@ def battle_system(hero, monster_name, monster_hp, monster_atk):
                     print("⚠️ Not enough Mana! Your spell fizzles out!")
             except (IndexError, ValueError):
                 print("❌ Invalid spell selection! Turn wasted.")
+        
         elif choice == "3":
             print(f"Inventory: {hero.inventory}")
             use_item = input("Type 'health' for Health Potion or 'mana' for Mana Elixir: ").lower().strip()
@@ -95,6 +96,79 @@ def battle_system(hero, monster_name, monster_hp, monster_atk):
             elif use_item == "mana" and "Mana Elixir" in hero.inventory:
                 hero.inventory.remove("Mana Elixir")
                 hero.mp = min(hero.max_mp, hero.mp + 60)
-                print(f"
-                        
-            
+                print(f"🧪 You drink a Mana Elixir. MP restored to {hero.mp}!")
+            else:
+                print("⚠️ Item not available in your bag!")
+        else:
+            print("❌ Invalid action!")
+
+        # Enemy counter-attack
+        if monster_hp > 0:
+            m_dmg = random.randint(monster_atk = 3, monster_atk + 5)
+            hero.hp -= m_dmg
+            print(f"👹 {monster_name} attacks back dealing {m_dmg} damage!")
+            time.sleep(1)
+
+    if hero.hp > 0:
+        print(f"\n🎉 VICTORY! You vanquished {monster_name}!")
+        if random.random() > 0.3:
+            loot = random.choice(["Health Potion", "Mana Elixir"])
+            hero.inventory.append(loot)
+            print(f"🎁 Found Loot: You picked up 1x {loot}!")
+        return True
+    else:
+        print("\n💀 YOU HAVE FALLEN! Your quest ends here...")
+        return False
+
+def start_game():
+    print("=" * 50)
+    print("   🔮 FANTASY QUEST: REALM OF ARCANA 🔮")
+    print("=" * 50)
+
+    name = input("Enter your hero's name: ").strip() or Eldrin"
+    print("\nSelect Your Archetype:")
+    print("1. Archmage        (High Spell Damage, High Mana, Low HP)")
+    print("2. Paladin         (High HP, Defensive, Holy Magic)")
+    print("3. Shadow Rogue    (High Melee Attack, Swift)")
+
+    class_choice = input("Choice (1-3): ").strip()
+    hero = Hero(name, class_choice)
+
+    print(f"\nWelcome to Arcane, {hero.name}. You venture into the Whispering Dungeon...")
+    time.sleep(1.5)
+
+    dungeon = [
+        {"location": "Forgotten Crypt", "monster": "Cave Goblin", "hp": 45, "atk": 10},
+        {"location": "Sunken Temple", "monster": "Shadow Specter", "hp": 80, "atk": 16},
+        {"location": "Dragon's Sanctum", "monster": "Ancient Red Dragon", "hp": 150, "atk": 24}
+    ]
+
+    for step, zone in enumerate(dungeon, start=1):
+        display_hero_stats(hero)
+        print(f"--- FLOOR {step}: {zone['location']} ---")
+        print("1. Press onward")
+        print("2. Search surroundings for ancient chest")
+
+        act = input("Action (1-2): ").strip()
+        if act == "2":
+            if random.random() > 0.4:
+                loot = random.choice(["Health Potion", "Mana Elixir"])
+                hero.inventory.append(loot)
+                print(f"🔍 You opened an ancient chest and discovered a {loot}!")
+            else:
+                print("🔍 You searched the room, but only dust and rocks.")
+        
+        victory = battle_system(hero, zone["monster"], zone["hp"], zone["atk"])
+        if not victory:
+            break
+        
+        print(f"\n✨ Floor {step} cleared!")
+        time.sleep(1.5)
+ 
+    if hero.hp > 0:
+        print("\n" + "=" * 50)
+        print(" 🏆 REALM SAVED! You defeated the Ancient Dragon and restored peace!")
+        print("=" * 50)
+
+if __name__ == "__main__":
+    start_game()   

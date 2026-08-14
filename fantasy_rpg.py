@@ -80,7 +80,7 @@ def battle_system(hero, monster_name, monster_hp, monster_atk):
                         heal_amount = spell_info["heal"]
                         hero.hp = min(hero.max_hp, hero.hp + heal_amount)
                         print(f"🌟 Radiant light bathes you, restoring {heal_amount} HP!")
-               else:
+                else:
                     print("⚠️ Not enough Mana! Your spell fizzles out!")
             except (IndexError, ValueError):
                 print("❌ Invalid spell selection! Turn wasted.")

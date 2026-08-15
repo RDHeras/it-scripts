@@ -33,43 +33,43 @@ class Hero:
             self.spells = {"Shadow Strike": {"cost": 25, "damage": 50}}
 
 def display_hero_stats(hero):
-    print("\n" + "=" * 45)
+    print("\n" + "═" * 45)
     print(f" 🧙 HERO: {hero.name} the {hero.role}")
     print(f" ❤️  Health (HP): {hero.hp}/{hero.max_hp}")
     print(f" 🧪 Mana (MP):   {hero.mp}/{hero.max_mp}")
-    print(f" 🎒 Bag:        {', '.join(hero.inevntory)}")
-    print("=" * 45 + "\n")
+    print(f" 🎒 Bag:        {', '.join(hero.inventory)}")
+    print("═" * 45 + "\n")
 
 def battle_system(hero, monster_name, monster_hp, monster_atk):
-    print(f"\n⚔️ A wild [{monster_name}] emerges from the shadow!")
+    print(f"\n⚔️ A wild [{monster_name}] emerges from the shadows!")
     time.sleep(1)
-
+    
     while monster_hp > 0 and hero.hp > 0:
         print(f"\n--- ENCOUNTER: {monster_name} (HP: {monster_hp}) ---")
         print(f"Your HP: {hero.hp}/{hero.max_hp} | Mana: {hero.mp}/{hero.max_mp}")
         print("1. Weapon Strike (Melee Attack)")
-        print("2. Cast Spells")
+        print("2. Cast Spell")
         print("3. Drink Potion")
-
+        
         choice = input("Select combat action (1-3): ").strip()
-
+        
         if choice == "1":
             dmg = random.randint(hero.attack - 4, hero.attack + 6)
             monster_hp -= dmg
             print(f"🗡️ You strike {monster_name} with your weapon for {dmg} damage!")
-       
+            
         elif choice == "2":
             print("\nAvailable Spells:")
             spell_list = list(hero.spells.keys())
             for idx, spell in enumerate(spell_list, start=1):
                 cost = hero.spells[spell]["cost"]
                 print(f"  [{idx}] {spell} (Costs {cost} MP)")
-           
+                
             spell_choice = input("Choose a spell: ").strip()
             try:
                 selected_spell = spell_list[int(spell_choice) - 1]
                 spell_info = hero.spells[selected_spell]
-
+                
                 if hero.mp >= spell_info["cost"]:
                     hero.mp -= spell_info["cost"]
                     if "damage" in spell_info:
@@ -84,11 +84,11 @@ def battle_system(hero, monster_name, monster_hp, monster_atk):
                     print("⚠️ Not enough Mana! Your spell fizzles out!")
             except (IndexError, ValueError):
                 print("❌ Invalid spell selection! Turn wasted.")
-        
+                
         elif choice == "3":
             print(f"Inventory: {hero.inventory}")
             use_item = input("Type 'health' for Health Potion or 'mana' for Mana Elixir: ").lower().strip()
-
+            
             if use_item == "health" and "Health Potion" in hero.inventory:
                 hero.inventory.remove("Health Potion")
                 hero.hp = min(hero.max_hp, hero.hp + 50)
@@ -101,14 +101,14 @@ def battle_system(hero, monster_name, monster_hp, monster_atk):
                 print("⚠️ Item not available in your bag!")
         else:
             print("❌ Invalid action!")
-
+            
         # Enemy counter-attack
         if monster_hp > 0:
-            m_dmg = random.randint(monster_atk = 3, monster_atk + 5)
+            m_dmg = random.randint(monster_atk - 3, monster_atk + 5)
             hero.hp -= m_dmg
             print(f"👹 {monster_name} attacks back dealing {m_dmg} damage!")
             time.sleep(1)
-
+            
     if hero.hp > 0:
         print(f"\n🎉 VICTORY! You vanquished {monster_name}!")
         if random.random() > 0.3:
@@ -121,34 +121,34 @@ def battle_system(hero, monster_name, monster_hp, monster_atk):
         return False
 
 def start_game():
-    print("=" * 50)
+    print("═" * 50)
     print("   🔮 FANTASY QUEST: REALM OF ARCANA 🔮")
-    print("=" * 50)
-
-    name = input("Enter your hero's name: ").strip() or Eldrin"
+    print("═" * 50)
+    
+    name = input("Enter your hero's name: ").strip() or "Eldrin"
     print("\nSelect Your Archetype:")
     print("1. Archmage        (High Spell Damage, High Mana, Low HP)")
     print("2. Paladin         (High HP, Defensive, Holy Magic)")
     print("3. Shadow Rogue    (High Melee Attack, Swift)")
-
+    
     class_choice = input("Choice (1-3): ").strip()
     hero = Hero(name, class_choice)
-
-    print(f"\nWelcome to Arcane, {hero.name}. You venture into the Whispering Dungeon...")
+    
+    print(f"\nWelcome to Arcana, {hero.name}. You venture into the Whispering Dungeon...")
     time.sleep(1.5)
-
+    
     dungeon = [
         {"location": "Forgotten Crypt", "monster": "Cave Goblin", "hp": 45, "atk": 10},
         {"location": "Sunken Temple", "monster": "Shadow Specter", "hp": 80, "atk": 16},
         {"location": "Dragon's Sanctum", "monster": "Ancient Red Dragon", "hp": 150, "atk": 24}
     ]
-
+    
     for step, zone in enumerate(dungeon, start=1):
         display_hero_stats(hero)
         print(f"--- FLOOR {step}: {zone['location']} ---")
         print("1. Press onward")
         print("2. Search surroundings for ancient chest")
-
+        
         act = input("Action (1-2): ").strip()
         if act == "2":
             if random.random() > 0.4:
@@ -156,19 +156,19 @@ def start_game():
                 hero.inventory.append(loot)
                 print(f"🔍 You opened an ancient chest and discovered a {loot}!")
             else:
-                print("🔍 You searched the room, but only dust and rocks.")
-        
+                print("🔍 You searched the room, but found only dust and rocks.")
+                
         victory = battle_system(hero, zone["monster"], zone["hp"], zone["atk"])
         if not victory:
             break
-        
+            
         print(f"\n✨ Floor {step} cleared!")
         time.sleep(1.5)
- 
+        
     if hero.hp > 0:
-        print("\n" + "=" * 50)
+        print("\n" + "═" * 50)
         print(" 🏆 REALM SAVED! You defeated the Ancient Dragon and restored peace!")
-        print("=" * 50)
+        print("═" * 50)
 
 if __name__ == "__main__":
-    start_game()   
+    start_game()
